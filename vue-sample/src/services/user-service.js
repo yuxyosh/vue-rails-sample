@@ -6,7 +6,9 @@ export default class UserService {
   }
 
   init () {
-    if (!this.isStored && store.getters.userList.length === 0) {
+    if (store.getters.userList.length !== 0) {
+      this.isStored = true
+    } else {
       store.dispatch('getUserList').then(() => { this.isStored = true })
     }
   }

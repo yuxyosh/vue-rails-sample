@@ -7,21 +7,25 @@ const instance = axios.create({
 })
 
 export const ApiBase = {
-  get ({path, params, overWriteErrorHandlers}) {
+  get (path, {params = null, overWriteErrorHandlers = {}} = {}) {
     return instance.get(path, {params: params})
       .then((res) => {
         return res
       })
-      .catch((err) => {
-        const handler = resolveErrorHandler(err, overWriteErrorHandlers)
-        handler(err)
-        throw err
+      .catch((error) => {
+        const handler = resolveErrorHandler(error, overWriteErrorHandlers)
+        handler(error)
+        throw error
       })
   }
 }
 
 function resolveErrorHandler (error, overWriteErrorHandlers) {
-  const errorKey = error.status ? error.status : '000'
+  let errorKey = '000'
+  if (error.response) {
+    console.log(error.response)
+    errorKey = error.response.status
+  }
   let handler = overWriteErrorHandlers[errorKey] || defaultErrorHandlers[errorKey]
   if (!handler) {
     handler = () => { console.log(`errorKey ${errorKey} could not be handled.`) }
