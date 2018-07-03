@@ -8,7 +8,7 @@ const instance = axios.create({
 
 export const ApiBase = {
   get ({path, params, overWriteErrorHandlers}) {
-    return instance.get(path)
+    return instance.get(path, {params: params})
       .then((res) => {
         return res
       })
