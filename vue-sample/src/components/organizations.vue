@@ -1,19 +1,17 @@
 <template>
   <div class="hello">
-    <h1>計{{ count }}人</h1>
+    <h1>計{{ count }}組織</h1>
       <table border="1px" bordercolor="#333333">
       <tr>
         <th width="40px">id</th>
         <th width="100px">name</th>
-        <th width="200px">email</th>
-        <th width="100px">age</th>
+        <th width="200px">location</th>
         <th width="100px">link</th>
       <tr>
-      <tr v-for="user in userList" :key="user.id">
-        <th>{{user.id}}</th>
-        <th>{{user.name}}</th>
-        <th>{{user.email}}</th>
-        <th>{{user.age}}</th>
+      <tr v-for="organization in organizationList" :key="organization.id">
+        <th>{{organization.id}}</th>
+        <th>{{organization.name}}</th>
+        <th>{{organization.location}}</th>
         <th>link</th>
       </tr>
     </table>
@@ -22,23 +20,23 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import UserService from '@/services/user-service'
+import OrganizationService from '@/services/organization-service'
 
 export default {
-  name: 'Users',
+  name: 'Organization',
   data () {
     return {
     }
   },
   created: function () {
-    let userService = new UserService()
-    userService.init()
+    let organizationService = new OrganizationService()
+    organizationService.init()
   },
   computed: {
     ...mapGetters([
-      'userList'
+      'organizationList'
     ]),
-    count: function () { return this.userList.length }
+    count: function () { return this.organizationList.length }
   }
 }
 </script>

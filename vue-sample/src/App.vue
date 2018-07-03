@@ -1,5 +1,9 @@
 <template>
   <div id="app">
+    <div class="header">
+      <router-link :to="{ name: 'Users' }">Users</router-link>
+      <router-link :to="{ name: 'Organizations' }">Organizations</router-link>
+    </div>
     <router-view/>
   </div>
 </template>
