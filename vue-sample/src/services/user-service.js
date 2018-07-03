@@ -1,7 +1,13 @@
 import store from '@/store'
 
 export default class UserService {
-  getUserList (args) {
-    return store.dispatch('getUserList', args)
+  constructor () {
+    this.isStored = false
+  }
+
+  init () {
+    if (!this.isStored && store.getters.userList.length === 0) {
+      store.dispatch('getUserList').then(() => { this.isStored = true })
+    }
   }
 }
