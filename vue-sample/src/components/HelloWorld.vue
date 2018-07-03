@@ -1,6 +1,7 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <h1>{{ count }}</h1>
     <h2>Essential Links</h2>
     <ul>
       <li>
@@ -84,12 +85,20 @@
 </template>
 
 <script>
+import UserService from '@/services/user-service'
 export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
+      count: 0
     }
+  },
+  created: function () {
+    let userService = new UserService()
+    userService.getUserList().then((res) => {
+      this.count = res.data.length
+    })
   }
 }
 </script>
