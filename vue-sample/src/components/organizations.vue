@@ -1,10 +1,10 @@
 <template>
   <div class="hello">
     <h1>計{{ count }}組織</h1>
-      <table border="1px" bordercolor="#333333">
+      <table align="center" border="1px" bordercolor="#333333">
       <tr>
         <th width="40px">id</th>
-        <th width="100px">name</th>
+        <th width="200px">name</th>
         <th width="200px">location</th>
         <th width="100px">link</th>
       <tr>

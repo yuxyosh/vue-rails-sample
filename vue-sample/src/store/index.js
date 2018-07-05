@@ -11,7 +11,9 @@ const debug = process.env.NODE_ENV !== 'production'
 const store = new Vuex.Store({
   state: {
     userList: [],
-    organizationList: []
+    currentUser: null,
+    organizationList: [],
+    currentOrganization: null
   },
   mutations,
   actions,

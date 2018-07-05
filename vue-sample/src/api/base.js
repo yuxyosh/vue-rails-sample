@@ -8,27 +8,45 @@ const instance = axios.create({
 
 export const ApiBase = {
   get (path, {params = null, overWriteErrorHandlers = {}} = {}) {
-    return instance.get(path, {params: params})
-      .then((res) => {
-        return res
-      })
-      .catch((error) => {
-        const handler = resolveErrorHandler(error, overWriteErrorHandlers)
-        handler(error)
-        throw error
-      })
+    console.log(`GET request: ${path}`)
+    return request(instance.get(path, {params: params}), overWriteErrorHandlers)
+  },
+  delete (path, {params = null, overWriteErrorHandlers = {}} = {}) {
+    console.log(`DELETE request: ${path}`)
+    return request(instance.delete(path, {params: params}), overWriteErrorHandlers)
+  },
+  post (path, {body = null, overWriteErrorHandlers = {}} = {}) {
+    console.log(`POST request: ${path}`)
+    return request(instance.post(path, body), overWriteErrorHandlers)
+  },
+  put (path, {body = null, overWriteErrorHandlers = {}} = {}) {
+    console.log(`PUT request: ${path}`)
+    return request(instance.put(path, body), overWriteErrorHandlers)
   }
 }
 
+function request (req, overWriteErrorHandlers) {
+  return req
+    .then((res) => {
+      console.log(`Request complete: ${JSON.stringify(res.data)}`)
+      return res
+    })
+    .catch((error) => {
+      const handler = resolveErrorHandler(error, overWriteErrorHandlers)
+      handler(error)
+      throw error
+    })
+}
+
 function resolveErrorHandler (error, overWriteErrorHandlers) {
-  let errorKey = '000'
+  let errorCode = '000'
   if (error.response) {
     console.log(error.response)
-    errorKey = error.response.status
+    errorCode = error.response.status
   }
-  let handler = overWriteErrorHandlers[errorKey] || defaultErrorHandlers[errorKey]
+  let handler = overWriteErrorHandlers[errorCode] || defaultErrorHandlers[errorCode]
   if (!handler) {
-    handler = () => { console.log(`errorKey ${errorKey} could not be handled.`) }
+    handler = () => { console.log(`errorCode ${errorCode} could not be handled.`) }
   }
   return handler
 }

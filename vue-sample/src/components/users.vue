@@ -1,7 +1,7 @@
 <template>
-  <div class="hello">
+  <div>
     <h1>計{{ count }}人</h1>
-      <table border="1px" bordercolor="#333333">
+      <table align="center" border="1px" bordercolor="#333333">
       <tr>
         <th width="40px">id</th>
         <th width="100px">name</th>
@@ -14,7 +14,7 @@
         <th>{{user.name}}</th>
         <th>{{user.email}}</th>
         <th>{{user.age}}</th>
-        <th>link</th>
+        <th><router-link :to="{ name: 'User', params: { id: user.id } }">link</router-link></th>
       </tr>
     </table>
   </div>
@@ -32,7 +32,7 @@ export default {
   },
   created: function () {
     let userService = new UserService()
-    userService.init()
+    userService.setupUsers()
   },
   computed: {
     ...mapGetters([
