@@ -11,7 +11,7 @@
       </div>
       <div>
         <label for="user_age">Age</label>
-        <input type="text" id="user_age" v-model="user.age">
+        <input type="number" id="user_age" v-model.number="user.age">
       </div>
       <button type="submit">送信</button>
     </form>
@@ -39,10 +39,7 @@ export default {
   },
   methods: {
     editUser: function () {
-      this.userService.editUser(this.id, this.user).then((user) => {
-        alert('成功しました!')
-        console.log(user)
-      })
+      this.userService.editUser(this.id, this.user)
     }
   }
 }

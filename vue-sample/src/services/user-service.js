@@ -3,14 +3,12 @@ import { Api } from '@/api'
 
 export default class UserService {
   constructor () {
-    this.usersStored = false
+    console.log('New UserService')
   }
 
   setupUsers () {
-    if (store.getters.userList.length !== 0) {
-      this.usersStored = true
-    } else {
-      store.dispatch('getUserList').then(() => { this.usersStored = true })
+    if (store.getters.userList.length === 0) {
+      store.dispatch('getUserList')
     }
   }
 
@@ -22,6 +20,7 @@ export default class UserService {
   async editUser (id, user) {
     await Api.editUser(id, {body: user})
     await store.dispatch('getUser', {id: id})
+    store.dispatch('getUserList')
     return store.getters.currentUser
   }
 }
