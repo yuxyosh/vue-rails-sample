@@ -6,21 +6,21 @@ export default class UserService {
     console.log('New UserService')
   }
 
-  setupUsers () {
+  async setupUserList () {
     if (store.getters.userList.length === 0) {
       store.dispatch('getUserList')
     }
   }
 
-  async setupUser (id) {
+  async getUser (id) {
     await store.dispatch('getUser', {id: id})
     return store.getters.currentUser
   }
 
-  async editUser (id, user) {
-    await Api.editUser(id, {body: user})
-    await store.dispatch('getUser', {id: id})
+  async updateUser (id, user) {
+    await Api.updateUser({id: id, body: user})
+    const updatedUser = await this.getUser(id)
     store.dispatch('getUserList')
-    return store.getters.currentUser
+    return updatedUser
   }
 }

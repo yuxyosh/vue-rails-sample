@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form v-if="user" v-on:submit.prevent="editUser">
+    <form v-if="user" v-on:submit.prevent="updateUser">
       <div>
         <label for="user_name">Name</label>
         <input type="text" id="user_name" v-model="user.name">
@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import UserService from '@/services/user-service'
 
 export default {
@@ -33,13 +34,16 @@ export default {
   },
   created: function () {
     this.userService = new UserService()
-    this.userService.setupUser(this.id).then((user) => {
+    this.userService.getUser(this.id).then((user) => {
       this.user = Object.assign({}, user) // NOTICE: not deep copy
     })
   },
+  computed: {
+    ...mapGetters([])
+  },
   methods: {
-    editUser: function () {
-      this.userService.editUser(this.id, this.user)
+    updateUser: function () {
+      this.userService.updateUser(this.id, this.user)
     }
   }
 }

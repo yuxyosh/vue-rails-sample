@@ -7,14 +7,14 @@ export const Api = {
   createOrganization (args) {
     return ApiBase.post(`/organizations`, args)
   },
-  getOrganization (id, args) {
-    return ApiBase.get(`/organizations/${id}`, args)
+  getOrganization (args) {
+    return ApiBase.get(`/organizations/${args.id}`, args)
   },
-  editOrganization (id, args) {
-    return ApiBase.put(`/organizations/${id}`, args)
+  updateOrganization (args) {
+    return ApiBase.put(`/organizations/${args.id}`, args)
   },
-  deleteOrganization (id, args) {
-    return ApiBase.delete(`/organizations/${id}`, args)
+  deleteOrganization (args) {
+    return ApiBase.delete(`/organizations/${args.id}`, args)
   },
 
   getUserList (args) {
@@ -23,15 +23,13 @@ export const Api = {
   createUser (args) {
     return ApiBase.post(`/users`, args)
   },
-  getUser (id, args) {
-    return ApiBase.get(`/users/${id}`, args)
+  getUser (args) {
+    return ApiBase.get(`/users/${args.id}`, args)
   },
-  editUser (id, args) {
-    console.log(id)
-    console.log(args)
-    return ApiBase.put(`/users/${id}`, args)
+  updateUser (args) {
+    return ApiBase.put(`/users/${args.id}`, args)
   },
-  deleteUser (id, args) {
-    return ApiBase.delete(`/users/${id}`, args)
+  deleteUser (args) {
+    return ApiBase.delete(`/users/${args.id}`, args)
   }
 }

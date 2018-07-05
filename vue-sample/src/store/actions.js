@@ -9,7 +9,7 @@ export default {
     })
   },
   getUser ({commit}, args) {
-    return Api.getUser(args.id, args).then(res => {
+    return Api.getUser(args).then(res => {
       commit(types.GET_USER, res.data)
       return res
     })
@@ -21,7 +21,7 @@ export default {
     })
   },
   getOrganization ({commit}, args) {
-    return Api.getOrganization(args.id, args).then(res => {
+    return Api.getOrganization(args).then(res => {
       commit(types.GET_ORGANIZATION, res.data)
       return res
     })

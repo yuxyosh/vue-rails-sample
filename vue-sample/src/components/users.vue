@@ -32,7 +32,7 @@ export default {
   },
   created: function () {
     let userService = new UserService()
-    userService.setupUsers()
+    userService.setupUserList()
   },
   computed: {
     ...mapGetters([
