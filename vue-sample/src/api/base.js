@@ -7,44 +7,44 @@ const instance = axios.create({
 })
 
 export const ApiBase = {
-  get (path, {params = null, overWriteErrorHandlers = {}} = {}) {
+  get (path, {params = null, errorHandlers = {}} = {}) {
     console.log(`GET request: ${path}`)
-    return request(instance.get(path, {params: params}), overWriteErrorHandlers)
+    return request(instance.get(path, {params: params}), errorHandlers)
   },
-  delete (path, {params = null, overWriteErrorHandlers = {}} = {}) {
+  delete (path, {params = null, errorHandlers = {}} = {}) {
     console.log(`DELETE request: ${path}`)
-    return request(instance.delete(path, {params: params}), overWriteErrorHandlers)
+    return request(instance.delete(path, {params: params}), errorHandlers)
   },
-  post (path, {body = null, overWriteErrorHandlers = {}} = {}) {
+  post (path, {body = null, errorHandlers = {}} = {}) {
     console.log(`POST request: ${path}`)
-    return request(instance.post(path, body), overWriteErrorHandlers)
+    return request(instance.post(path, body), errorHandlers)
   },
-  put (path, {body = null, overWriteErrorHandlers = {}} = {}) {
+  put (path, {body = null, errorHandlers = {}} = {}) {
     console.log(`PUT request: ${path}`)
-    return request(instance.put(path, body), overWriteErrorHandlers)
+    return request(instance.put(path, body), errorHandlers)
   }
 }
 
-function request (req, overWriteErrorHandlers) {
+function request (req, errorHandlers) {
   return req
     .then((res) => {
       console.log(`Request complete: ${JSON.stringify(res.data)}`)
       return res
     })
     .catch((error) => {
-      const handler = resolveErrorHandler(error, overWriteErrorHandlers)
+      const handler = resolveErrorHandler(error, errorHandlers)
       handler(error)
       throw error
     })
 }
 
-function resolveErrorHandler (error, overWriteErrorHandlers) {
+function resolveErrorHandler (error, errorHandlers) {
   let errorCode = '000'
   if (error.response) {
     console.log(error.response)
     errorCode = error.response.status
   }
-  let handler = overWriteErrorHandlers[errorCode] || defaultErrorHandlers[errorCode]
+  let handler = errorHandlers[errorCode] || defaultErrorHandlers[errorCode]
   if (!handler) {
     handler = () => { console.log(`errorCode ${errorCode} could not be handled.`) }
   }
