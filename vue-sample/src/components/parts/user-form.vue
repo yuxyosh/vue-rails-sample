@@ -13,7 +13,7 @@
         <input type="number" id="user_age" v-model.number="user.age">
       </div>
       <button type="submit">OK</button>
-      <button @click.prevent="$emit('cancel')">CANCEL</button>
+      <button v-if="cancelButton" @click.prevent="$emit('cancel')">CANCEL</button>
     </form>
   </div>
 </template>
@@ -36,6 +36,11 @@ export default {
       email: null,
       age: null
     }, this.targetUser) // NOTICE: not deep copy
+  },
+  watch: {
+    targetUser: function (newUser, oldUser) {
+      this.user = newUser
+    }
   }
 }
 </script>

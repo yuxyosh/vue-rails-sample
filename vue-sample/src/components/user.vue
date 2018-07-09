@@ -1,20 +1,6 @@
 <template>
   <div>
-    <form v-if="user" v-on:submit.prevent="updateUser">
-      <div>
-        <label for="user_name">Name</label>
-        <input type="text" id="user_name" v-model="user.name">
-      </div>
-      <div>
-        <label for="user_email">Email</label>
-        <input type="text" id="user_email" v-model="user.email">
-      </div>
-      <div>
-        <label for="user_age">Age</label>
-        <input type="number" id="user_age" v-model.number="user.age">
-      </div>
-      <button type="submit">送信</button>
-    </form>
+    <user-form :target-user="user" @submit="updateUser"></user-form>
     <modal v-if="showModal" @close="showModal = false">
       <h3 slot="header">編集</h3>
       <p slot="body">変更しました</p>
@@ -26,11 +12,13 @@
 import { mapGetters } from 'vuex'
 import UserService from '@/services/user-service'
 import Modal from './parts/modal'
+import UserForm from './parts/user-form'
 
 export default {
   name: 'User',
   components: {
-    'modal': Modal
+    'modal': Modal,
+    'user-form': UserForm
   },
   props: {
     id: Number
@@ -51,8 +39,8 @@ export default {
     ...mapGetters([])
   },
   methods: {
-    updateUser: function () {
-      this.userService.updateUser(this.id, this.user).then(() => {
+    updateUser: function (user) {
+      this.userService.updateUser(this.id, user).then(() => {
         this.showModal = true
       })
     }
