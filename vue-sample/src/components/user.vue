@@ -15,21 +15,30 @@
       </div>
       <button type="submit">送信</button>
     </form>
+    <modal v-if="showModal" @close="showModal = false">
+      <h3 slot="header">編集</h3>
+      <p slot="body">変更しました</p>
+    </modal>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import UserService from '@/services/user-service'
+import Modal from './parts/modal'
 
 export default {
   name: 'User',
+  components: {
+    'modal': Modal
+  },
   props: {
     id: Number
   },
   data () {
     return {
-      user: null
+      user: null,
+      showModal: false
     }
   },
   created: function () {
@@ -43,7 +52,9 @@ export default {
   },
   methods: {
     updateUser: function () {
-      this.userService.updateUser(this.id, this.user)
+      this.userService.updateUser(this.id, this.user).then(() => {
+        this.showModal = true
+      })
     }
   }
 }

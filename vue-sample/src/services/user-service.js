@@ -23,4 +23,14 @@ export default class UserService {
     store.dispatch('getUserList')
     return updatedUser
   }
+
+  async createUser (user) {
+    await Api.createUser({body: user})
+    store.dispatch('getUserList')
+  }
+
+  async deleteUser (id) {
+    await Api.deleteUser({id: id})
+    store.dispatch('getUserList')
+  }
 }
