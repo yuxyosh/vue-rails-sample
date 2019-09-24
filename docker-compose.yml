@@ -1,0 +1,42 @@
+version: '3'
+services:
+  db:
+    image: postgres:10.4-alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - .postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: sample
+      POSTGRES_PASSWORD: sample
+    tty: true
+  redis:
+    image: redis:4
+    ports:
+      - 16379:6379
+  server:
+    build:
+      context: ./rails
+      dockerfile: containers/Dockerfile.dev
+    command: /bin/sh -c "rm -f /app/tmp/pids/server.pid && bundle install -j3 && bin/rails s -p 3000 -b '0.0.0.0'"
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./rails:/app
+    environment:
+      - DOCKER_DATABASE_HOST=db
+      - REDIS_URL=redis://redis:6379/
+    tty: true
+    stdin_open: true
+  client:
+    build:
+      context: ./vue
+      dockerfile: containers/Dockerfile.dev
+    # command: /bin/sh -c "yarn install && vue ui --host 0.0.0.0"
+    command: /bin/sh -c "yarn install && yarn serve"
+    ports:
+      - "8000:8000"
+      - "8080:8080"
+    volumes:
+      - ./vue:/app
+      - /app/node_modules

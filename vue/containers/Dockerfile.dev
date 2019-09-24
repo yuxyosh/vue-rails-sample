@@ -1,0 +1,14 @@
+FROM node:10.15.1-alpine
+
+WORKDIR /app
+
+COPY package.json /app/package.json
+
+RUN apk --no-cache --virtual build-dependencies add \
+    python \
+    make \
+    g++ \
+    && yarn install \
+    && apk del build-dependencies
+
+RUN yarn global add @vue/cli
