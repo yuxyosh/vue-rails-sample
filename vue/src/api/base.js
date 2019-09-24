@@ -5,7 +5,17 @@ import { camelizeKeys, decamelizeKeys } from 'humps'
 const timeoutMs = 30000
 const largeTimeoutMs = 300000
 
-let baseUrl = 'http://localhost:3000/'
+let baseUrl = ''
+if (process.env.NODE_ENV === 'development') {
+  baseUrl = 'http://localhost:3000/'
+} else {
+  const host = location.host
+  if (host === 'localhost:3000') {
+    baseUrl = 'http://' + host + '/'
+  } else {
+    baseUrl = 'https://' + host + '/'
+  }
+}
 
 const httpInstance = axios.create({
   baseURL: baseUrl,
